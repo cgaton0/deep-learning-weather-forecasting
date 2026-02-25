@@ -36,7 +36,6 @@ python_env/
 *.npy
 *.pkl
 *.parquet
-*.npy
 
 # Model weights and checkpoints
 *.ckpt

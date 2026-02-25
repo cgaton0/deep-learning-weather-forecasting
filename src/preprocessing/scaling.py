@@ -52,13 +52,13 @@ def inverse_scaler(data_scaled, scaler, df_columns, feature_name="T_(degC)"):
 
     # Índice de la variable que desescalamos
     temp_idx = df_columns.get_loc(feature_name)
-    N, horizon = data_scaled.shape
+    n, horizon = data_scaled.shape
 
     data_rescaled = np.zeros_like(data_scaled)
 
     # Para cada horizonte, se construye un dummy y se desescala
     for h in range(horizon):
-        dummy = np.zeros((N, len(df_columns)))
+        dummy = np.zeros((n, len(df_columns)))
         dummy[:, temp_idx] = data_scaled[:, h]
 
         inv = scaler.inverse_transform(dummy)
