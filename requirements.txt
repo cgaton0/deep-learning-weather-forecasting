@@ -1,6 +1,7 @@
 # Core
 numpy
 pandas
+pyyaml
 
 # Serialization
 pyarrow

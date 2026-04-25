@@ -1,0 +1,93 @@
+# ==================================================
+# Baseline configuration
+# Deep Learning Weather Forecasting - Jena Climate
+# ==================================================
+
+project:
+  name: deep-learning-weather-forecasting
+  experiment_name: baseline
+  random_seed: 42
+
+# --------------------------------------------------
+# Data / preprocessing
+# --------------------------------------------------
+data:
+  downsample_time: "1h"
+  aggregation_method: "mean"
+  missing_method: "interpolate"
+
+  test_ratio: 0.15
+  val_ratio: 0.15
+
+# --------------------------------------------------
+# Supervised window generation
+# --------------------------------------------------
+windowing:
+  window_size: 72
+  target_size: 24
+  target_feature: "T_(degC)"
+
+# --------------------------------------------------
+# Model architecture
+# --------------------------------------------------
+model:
+  name: CNN_BiLSTM
+
+  units: 32
+  dropout: 0.10
+
+  conv1d:
+    filters: 32
+    kernel_size: 5
+    padding: "same"
+
+# --------------------------------------------------
+# Training
+# --------------------------------------------------
+training:
+  batch_size: 128
+  epochs: 100
+
+  shuffle: false
+
+  optimizer: "adam"
+  loss: "mean_squared_error"
+
+  callbacks:
+    early_stopping:
+      enabled: true
+      monitor: "val_loss"
+      patience: 10
+      restore_best_weights: true
+
+    model_checkpoint:
+      enabled: true
+      monitor: "val_loss"
+      save_best_only: true
+
+# --------------------------------------------------
+# Evaluation
+# --------------------------------------------------
+evaluation:
+  save_predictions: true
+  compute_horizon_metrics: true
+
+# --------------------------------------------------
+# Paths / outputs
+# --------------------------------------------------
+paths:
+  processed_dir: "data/processed"
+
+  scaler_path: "outputs/models/scaler.joblib"
+
+  models_dir: "outputs/models"
+  metrics_dir: "outputs/metrics"
+  predictions_dir: "outputs/predictions"
+  figures_dir: "outputs/figures"
+
+# --------------------------------------------------
+# Notebook / plotting defaults
+# --------------------------------------------------
+plots:
+  show_figures: true
+  random_samples_seed: 42
